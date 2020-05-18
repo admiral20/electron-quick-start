@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子窗口 title</title>
+</head>
+<body>
+    新打开的页面
+    <button onclick="sendMessageToFather()">给父级发送message</button>
+    <script>
+        let obj = {
+            name: 'zs',
+            age: 10,
+            // say () {
+            //     return `i am ${name}, my age is ${age}`
+            // },
+        };
+
+        function sendMessageToFather () {
+            window.opener.postMessage(obj)
+        };
+
+        window.addEventListener('message', (e) => {
+            console.log(e, 'hahha')
+        })
+    </script>
+</body>
+</html>

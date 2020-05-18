@@ -1,1 +1,14 @@
-node_modules
+.DS_Store
+node_modules/
+dist/
+gifs/
+npm-debug.log
+test/unit/coverage
+test/e2e/reports
+selenium-debug.log
+.idea
+temp/
+publish/
+.vscode/
+config/index.js
+package-lock.json
