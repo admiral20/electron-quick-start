@@ -54,6 +54,9 @@ linux：   c++
 # 主进程 和 渲染进程可以交互的
 
 
+# remote
+在渲染进程中使用主进程模块。
+
 # api
 
 ## app 进程：主进程
@@ -104,11 +107,47 @@ https://www.electronjs.org/docs/api/file-object
 -- 窗口之间通信， 通信监听
 
 ## BrowserWindow  主进程
+-- new BrowserWindow 返回的实例对象 控制当前窗口 close();
+
+## Dialog
+-- 主进程 const { dialog } = require('electron');
+-- 渲染进程 const { dialog } = require('electron').remote;
 
 
+## 系统快捷键
+-- 主进程 const { globalShortcut } = require('electron');
+-- 渲染进程 const { globalShortcut } = require('electron').remote;
 
-# 高级框架集成
+globalShortcut.register(accelerator, callback)
+globalShortcut.registerAll(accelerators, callback)
+
+globalShortcut.unregister(accelerator);
+globalShortcut.unregisterAll()
+
+globalShortcut.isRegistered(accelerator)
 
 
-# 打包
+## ipcMain
+1、从主进程到渲染进程的异步通信。 (被动接收)
+
+ipcMain.on('send-message-main', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.reply('send-message-renderer', 'pong')
+})
+
+2、 主动发动
+new BrowserWindow.webContents.send('send-message-renderer', "主动给渲染进程发送消息")
+
+## ipcRenderer 
+1、从渲染进程到主进程的异步通信。
+ipcRenderer.send('send-message-main', 'ping')
+
+ipcMain.on('send-message-renderer', (event, arg) => {
+  console.log(arg) // prints "pong"
+})
+
+## 高级框架集成
+
+
+## 打包
 

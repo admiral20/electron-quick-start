@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
 const path = require('path')
 
 
@@ -49,18 +49,25 @@ function createWindow () {
   // 事件: 'enter-full-screen'
   mainWindow.on('enter-full-screen', (e) => {
     console.log('enter-full-screen', e);
-  })
+  });
 
-
-
-  
+  // 主进程主动访问渲染进程
+  setTimeout(() => {
+    mainWindow.webContents.send('send-message-to-renderer', "wossssssssssssssssssssssssssss!!!!!s")
+  }, 5000);
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow()
+   
+  createWindow();
+  
+  // 注册快捷键
+  globalShortcut.register('CommandOrControl+O', () => {
+    console.log('CommandOrControl+O is pressed');
+  })
   
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -72,6 +79,9 @@ app.whenReady().then(() => {
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   console.log('window-all-closed', 'a');
+
+  // 清理注册的所有的快捷键；
+  globalShortcut.unregisterAll();
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit()
@@ -95,6 +105,14 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
+
+
+// ipcMain 主进程到渲染进程的异步通信
+ipcMain.on('send-message-to-main', (event, arg) => {
+  console.log('主进程收到的数据是:',arg) // prints "ping"
+  event.reply('send-message-to-renderer', '这是来自于主进程的问候')
+})
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
