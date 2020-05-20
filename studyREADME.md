@@ -160,6 +160,7 @@ Menu.setApplicationMenu(menu)
 vue 脚手架 
 vue init simulatedgreg/elevtron-vue electron-vue-start
 
+命令行窗口设置代理 set http_proxy=http://127.0.0.1:1080
 
 
 ## 打包
