@@ -5,8 +5,9 @@
 // selectively enable features needed in the rendering
 // process.
 const fs = require('fs');
-const { dialog, globalShortcut } = require('electron').remote
 const { ipcRenderer } = require('electron');
+const { remote } = require('electron');
+const { dialog, globalShortcut, Menu, MenuItem } = require('electron').remote
 
 const buttonDom = document.getElementById('bt');
 buttonDom.addEventListener("click", () => {
@@ -156,3 +157,57 @@ ipcRenderer.on('send-message-to-renderer', (event, arg) => {
 
 // 渲染进程发送消息给主进程；
 ipcRenderer.send('send-message-to-main', '666666666666666')
+
+
+// 菜单 Menu  MenuItem
+const mentbtn = document.getElementById('menubtn');
+const template = [
+    {
+        label: '刷新',
+        role: 'reload',
+    },
+    {
+        label: '111111111',
+        click: () => {
+            console.log(1111111);
+        },
+        submenu: [
+            {
+                label: '1-1',
+                type: 'checkbox',
+                checked: true,
+                click: () => {
+                    console.log('1 - 1');
+                }
+            },
+            {
+                label: '1-2',
+                type: 'radio',
+                checked: false,
+                click: function () {
+                    console.log('1 - 2');
+                }
+            }
+        ]
+    },
+    new MenuItem({
+        label: '222222',
+        type: 'normal',
+        click: () => {
+            console.log(2222);
+        }
+    }),
+]
+
+mentbtn.addEventListener('click', () => {
+    let menu = Menu.buildFromTemplate(template);
+    console.log(887, template, menu);
+    menu.popup();
+})
+
+// 全局添加右键事件
+window.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    let menu = Menu.buildFromTemplate(template);
+    menu.popup({ window: remote.getCurrentWindow() })
+}, false)

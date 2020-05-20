@@ -146,7 +146,20 @@ ipcMain.on('send-message-renderer', (event, arg) => {
   console.log(arg) // prints "pong"
 })
 
+## Menu MenuItem
+顶部菜单配置, 页面菜单配置, 渲染进程菜单
+let menu = Menu.buildFromTemplate(template) // template 数组, 返回菜单的实例;
+
+// 弹出菜单
+menu.popup(); 
+
+// 将菜单实例添加到当前应用上
+Menu.setApplicationMenu(menu)
+
 ## 高级框架集成
+vue 脚手架 
+vue init simulatedgreg/elevtron-vue electron-vue-start
+
 
 
 ## 打包
