@@ -2,57 +2,57 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>Hello World!</title>
     <link rel="stylesheet" href="./style/index.css">
   </head>
   <body>
-    <div>
-
-      <h1>Hello World! 朱振江</h1>
-      We are using Node.js <span id="node-version"></span>,
-      Chromium <span id="chrome-version"></span>,
-      and Electron <span id="electron-version"></span>.
-      <button id="bt">点击</button>
-
-      <!-- <div class="drapFile">
-        <span>往这里拖文件</span>
+      <div>
+          <h3>main process info</h3>
+          <button id="bt">点击</button>
       </div>
-      <div class="fileShow">
-      </div> -->
+      
+      <div>
+        <h3>event message; window open; browser-view;</h3>
+        <button id="openNewWindow">打开新窗口</button>
+        <button id="openNewWindow1">打开新窗口1</button>
+        <button id="openNewWindowInBrowser">浏览器里打开新窗口</button>
+        <button id="closeNewWindow">close新窗口</button>
+        <button id="sendMessage">给子窗口发送消息</button>
+      </div>
 
-      <!-- <div>
-        webview 测试：
+      <div>
+        <h3>menu</h3>
+        <button id="menubtn">点击打开菜单</button>
+      </div>
+
+      <div>
+        <h3>dialog</h3>
+        <button id="opendialog">选择文件</button>
+        <button id="savedialog">保存文件</button>
+        <button id="showMessageDialog">消息提示</button>
+      </div>
+
+
+      <div>
+        <h3>File</h3>
+        <div class="drapFile">
+          <span>往这里拖文件</span>
+        </div>
+        <div class="fileShow"></div>
+      </div>
+
+
+      <div>
+        <h3>webview 测试：</h3>
         <webview
           id="wb"
           preload="./webview/preload.js"
           src="https://www.baidu.com/"
           style="display:inline-flex; width: 100vw; height: 100vh;"/>
         </webview>
-      </div> -->
-
-      <div>
-        <button id="openNewWindow">打开新窗口</button>
-        <button id="closeNewWindow">close新窗口</button>
-        <button id="sendMessage">给子窗口发送消息</button>
       </div>
-
-
-      <div>
-        <p>dialog</p>
-        <button id="opendialog">选择文件</button>
-        <button id="savedialog">保存文件</button>
-        <button id="showMessageDialog">消息提示</button>
-      </div>
-
-      <div>
-        <p>menu</p>
-        <button id="menubtn">点击打开菜单</button>
-      </div>
-      
-    </div>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>

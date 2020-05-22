@@ -14,8 +14,8 @@ body {
 }
 
 .fileShow {
+    border-style: dashed;
     margin: 20px;
-    background: hotpink;
     width: 400px;
     height: 300px;
 }

@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, BrowserView } = require('electron')
 const path = require('path')
 
 
@@ -56,22 +56,11 @@ function createWindow () {
     mainWindow.webContents.send('send-message-to-renderer', "wossssssssssssssssssssssssssss!!!!!")
   }, 5000);
 
-  // const template = [
-  //   { label: '自定义第一个按钮' },
-  //   { label: '自定义第二个按钮' },
-  //   { role: 'undo' },
-  //   { type: 'separator' },
-  //   { label: '自定义第3个按钮' },
-  //   { label: '自定义第4个按钮' },
-  // ];
-  // setTimeout(() => {
-  //   // menu 菜单对象
-  //   let menu = Menu.buildFromTemplate(template)
-  //   // 将菜单添加到 application 头部
-  //   // Menu.setApplicationMenu(menu);
-  //   // 跟随鼠标弹出菜单
-  //   menu.popup();
-  // }, 0)
+  // BrowserView
+  let view = new BrowserView();
+  mainWindow.setBrowserView(view);
+  view.setBounds({ x: 0, y: 0, width: 800, height: 600 });
+  view.webContents.loadURL('http://adminuc.66yunliantest.com/')
 }
 
 // This method will be called when Electron has finished

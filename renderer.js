@@ -1,77 +1,85 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
 const fs = require('fs');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, shell } = require('electron');
 const { remote } = require('electron');
-const { dialog, globalShortcut, Menu, MenuItem } = require('electron').remote
+const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, } = require('electron').remote
 
-const buttonDom = document.getElementById('bt');
+function getDom (dom) {
+    return document.getElementById(dom);
+};
+
+// mainprocess
+const buttonDom = getDom('bt');
 buttonDom.addEventListener("click", () => {
-    console.log(88888888888, process.getCPUUsage());
-    console.log(9999999, process.env);
+    console.log('mianProcess:', process);
 });
 
 
 
 // FileObject
-// const drop = document.getElementsByClassName('drapFile')[0];
-// const fileShow = document.getElementsByClassName('fileShow')[0];
+const drop = document.getElementsByClassName('drapFile')[0];
+const fileShow = document.getElementsByClassName('fileShow')[0];
 
-// drop.addEventListener('drop', e => {
-//     // 坑
-//     e.preventDefault();
-//     const file = e.dataTransfer.files;
-//     if (file && file.length) {
-//         const path = file[0].path;
-//         // 读文件操作：
-//         const content = fs.readFileSync(path).toString();
-//         console.log('content:', content);
-//         fileShow.innerHTML = content;
-//     }
-// });
+drop.addEventListener('drop', e => {
+    // 坑
+    e.preventDefault();
+    const file = e.dataTransfer.files;
+    if (file && file.length) {
+        const path = file[0].path;
+        // 读文件操作：
+        const content = fs.readFileSync(path).toString();
+        console.log('content:', content);
+        fileShow.innerHTML = content;
+    }
+});
 
 
-// // 坑
-// drop.addEventListener('dragover', e => {
-//     e.preventDefault();
-// })
+// 坑
+drop.addEventListener('dragover', e => {
+    e.preventDefault();
+})
+
+
 
 
 // webview
-// const wb = document.getElementById('wb');
+const wb = getDom('wb');
 
-// wb.addEventListener('did-start-loading', () => {
-//     console.log('000 webwiev 开始加载');
-// });
+wb.addEventListener('did-start-loading', () => {
+    console.log('000 webwiev 开始加载');
+});
 
-// wb.addEventListener('did-stop-loading', () => {
-//     console.log('111 webwiev 加载完毕');
-//     wb.insertCSS(`
-//         #su {
-//             background: red !important;
-//         }
-//     `)
-// });
+wb.addEventListener('did-stop-loading', () => {
+    console.log('111 webwiev 加载完毕');
+    wb.insertCSS(`
+        #su {
+            background: red !important;
+        }
+    `)
+});
 
-// wb.addEventListener('dom-ready', () => {
-//     console.log('dom-ready');
-//     wb.openDevTools();
-// })
+wb.addEventListener('dom-ready', () => {
+    console.log('dom-ready');
+    // 开启 webview 调试工具
+    // wb.openDevTools();
+})
 
 // windowopen
-const openNewWindowBtn = document.getElementById('openNewWindow');
-const closeNewWindowBtn = document.getElementById('closeNewWindow');
-const sendMessageBtn = document.getElementById('sendMessage');
+const openNewWindowBtn = getDom('openNewWindow');
+const openNewWindowBtn1 = getDom('openNewWindow1');
+const closeNewWindowBtn = getDom('closeNewWindow');
+const sendMessageBtn = getDom('sendMessage');
+const openNewWindowInBrowserBtn = getDom('openNewWindowInBrowser');
 let newWindow = undefined;
 
+// 事件传递处理
 openNewWindowBtn.addEventListener('click', () => {
     newWindow = window.open('./windowopen/index.html', 'test');
     newWindow.postMessage('这是来自父窗口的问候', '*'),
     console.log(newWindow, 'newWindow');
+});
+
+openNewWindowBtn1.addEventListener('click', () => {
+    newWindow = window.open('./webBroserView/index.html');
 });
 
 sendMessageBtn.addEventListener('click', () => {
@@ -88,9 +96,15 @@ window.addEventListener('message', (e) => {
     console.log(e, 'e');
 })
 
+// 
+openNewWindowInBrowserBtn.addEventListener('click', () => {
+    shell.openExternal('https:baidu.com/');
+})
+
+
 
 // 打开文件
-const opendialogBtn = document.getElementById('opendialog');
+const opendialogBtn = getDom('opendialog');
 opendialogBtn.addEventListener('click', ()=> {
     dialog.showOpenDialog({
         title: '自定义title',
@@ -109,7 +123,7 @@ opendialogBtn.addEventListener('click', ()=> {
 
 
 // 保存文件
-const savedialogBtn = document.getElementById('savedialog');
+const savedialogBtn = getDom('savedialog');
 savedialogBtn.addEventListener('click', ()=> {
     dialog.showSaveDialog({
         title: '自定义title',
@@ -130,7 +144,7 @@ savedialogBtn.addEventListener('click', ()=> {
 
 
 // Message
-const showMessageDialogBtn = document.getElementById('showMessageDialog');
+const showMessageDialogBtn = getDom('showMessageDialog');
 showMessageDialogBtn.addEventListener('click', ()=> {
     dialog.showMessageBox({
         // type String(可选) - 可以为 "none", "info", "error", "question" 或者 "warning".在 Windows 上, "question" 与"info"显示相同的图标, 除非你使用了 "icon" 选项设置图标。 在 macOS 上, "warning" 和 "error" 显示相同的警告图标
@@ -160,7 +174,7 @@ ipcRenderer.send('send-message-to-main', '666666666666666')
 
 
 // 菜单 Menu  MenuItem
-const mentbtn = document.getElementById('menubtn');
+const mentbtn = getDom('menubtn');
 const template = [
     {
         label: '刷新',
@@ -209,5 +223,5 @@ mentbtn.addEventListener('click', () => {
 window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     let menu = Menu.buildFromTemplate(template);
-    menu.popup({ window: remote.getCurrentWindow() })
+    menu.popup({ window: getCurrentWindow() })
 }, false)
