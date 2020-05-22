@@ -164,4 +164,6 @@ vue init simulatedgreg/elevtron-vue electron-vue-start
 
 
 ## 打包
+** electron-packager
+** electron-build
 

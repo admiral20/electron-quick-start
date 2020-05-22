@@ -57,10 +57,10 @@ function createWindow () {
   }, 5000);
 
   // BrowserView
-  let view = new BrowserView();
-  mainWindow.setBrowserView(view);
-  view.setBounds({ x: 0, y: 0, width: 800, height: 600 });
-  view.webContents.loadURL('http://adminuc.66yunliantest.com/')
+  // let view = new BrowserView();
+  // mainWindow.setBrowserView(view);
+  // view.setBounds({ x: 0, y: 0, width: 800, height: 600 });
+  // view.webContents.loadURL('http://adminuc.66yunliantest.com/')
 }
 
 // This method will be called when Electron has finished
