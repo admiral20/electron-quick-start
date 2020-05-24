@@ -1,13 +1,14 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu, BrowserView } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, BrowserView, screen } = require('electron')
 const path = require('path')
 
 
 
 function createWindow () {
   // Create the browser window.
+  // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: 500,
     height: 600,
     // frame: false, // 控制边框
     backgroundColor: '#C7EDCC',
@@ -18,9 +19,9 @@ function createWindow () {
     }
   })
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
+  // mainWindow.loadURL('https://www.electronjs.org/docs/api/screen');
 
-  // process.xxx = mainWindow.webContents.browserWindowOptions;
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
   
@@ -34,17 +35,17 @@ function createWindow () {
 
   // 事件: 'move'
   // 窗口移动到新位置时触发
-  mainWindow.on('move', (e) => {
-    console.log('move', e);
-  })
+  // mainWindow.on('move', (e) => {
+  //   console.log('move', e);
+  // })
   
   // 注意: 在 macOS 上，此事件是moved的别名.
 
   //   事件: 'moved' macOS
   // 当窗口移动到新位置时触发一次
-  mainWindow.on('moved', (e) => {
-    console.log('moved', e);
-  })
+  // mainWindow.on('moved', (e) => {
+  //   console.log('moved', e);
+  // })
   
   // 事件: 'enter-full-screen'
   mainWindow.on('enter-full-screen', (e) => {
@@ -55,12 +56,6 @@ function createWindow () {
   setTimeout(() => {
     mainWindow.webContents.send('send-message-to-renderer', "wossssssssssssssssssssssssssss!!!!!")
   }, 5000);
-
-  // BrowserView
-  // let view = new BrowserView();
-  // mainWindow.setBrowserView(view);
-  // view.setBounds({ x: 0, y: 0, width: 800, height: 600 });
-  // view.webContents.loadURL('http://adminuc.66yunliantest.com/')
 }
 
 // This method will be called when Electron has finished
@@ -118,7 +113,3 @@ ipcMain.on('send-message-to-main', (event, arg) => {
   console.log('主进程收到的数据是:',arg) // prints "ping"
   event.reply('send-message-to-renderer', '这是来自于主进程的问候')
 })
-
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

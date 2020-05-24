@@ -3,12 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>子窗口 title</title>
+    <title>菜单测试页</title>
 </head>
 <body>
     新打开的页面
     <button onclick="sendMessageToFather()">给父级发送message</button>
+
+    <p>
+        <label>输入框</label>
+        <input type="text">
+    </p>
+
     <script>
+        const { Menu, MenuItem, getCurrentWindow } = require('electron').remote;
+
+        const template = [
+            {
+                label: '操作集合',
+                submenu: [
+                    {
+                        label: '撤销',
+                        role: 'undo',
+                        accelerator: 'ctrl + Z'
+                    },
+                    {
+                        label: '取消撤销',
+                        role: 'redo',
+                        accelerator: 'ctrl + Y'
+                    },
+                    {
+                        label: '剪切',
+                        role: 'cut',
+                        accelerator: 'ctrl + X'
+                    },
+                    {
+                        label: '复制',
+                        role: 'copy',
+                        accelerator: 'ctrl + C'
+                    },
+                    {
+                        label: '粘贴',
+                        role: 'paste',
+                        accelerator: 'ctrl + V'
+                    }
+                ],
+            },
+            {
+                label: '帮助',   
+                click: () => {
+                    console.log('need help!');
+                },
+            },
+            new MenuItem({
+                label: 'new menuItem 测试',
+                click: () => {
+                    console.log(2222);
+                }
+            }),
+        ];
+
+        // 将菜单应用到窗口顶部
+        // Menu.setApplicationMenu(template)
+        console.log(Menu, 'getApplicationMenu()');
+
+        // 全局添加右键事件
+        window.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            let menu = Menu.buildFromTemplate(template);
+            menu.popup({ window: getCurrentWindow() })
+        }, false);
+
         let obj = {
             name: 'zs',
             age: 10,

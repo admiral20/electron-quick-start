@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { ipcRenderer, shell } = require('electron');
-const { remote } = require('electron');
 const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView } = require('electron').remote
 
 function getDom (dom) {
@@ -63,17 +62,22 @@ wb.addEventListener('dom-ready', () => {
     // wb.openDevTools();
 })
 
+let windowArr = [];
 // windowopen
 // 事件传递处理
 function openNewWindow () {
-    newWindow = window.open('./windowopen/index.html', 'test');
-    newWindow.postMessage('这是来自父窗口的问候', '*'),
-        console.log(newWindow, 'newWindow');
+    let newWindow = window.open('./windowopen/index.html');
+    windowArr.push(newWindow);
+    // newWindow.postMessage('这是来自父窗口的问候', '*');
+    console.log('newWindow:', newWindow, "windowArr:", windowArr);
 };
 
 // 第三方库测试
 function openNewWindowOfOther () {
-    newWindow = window.open('./webBroserView/index.html', 'test');
+    // let newWindow = window.open('./webBroserView/index.html');
+    let newOtherWindow = window.open('./webBroserView/index.html');
+    windowArr.push(newOtherWindow);
+    // newOtherWindow.postMessage('testttt');
 };
 
 // 浏览器里打开新窗口
@@ -81,17 +85,20 @@ function openNewWindowInBrowser () {
     shell.openExternal('https:baidu.com/');
 };
 
-// close新窗口
+// close 所有新窗口
 function closeNewWindow() {
-    newWindow.close();
+    windowArr.length && windowArr.forEach((item => {
+        item.close();
+    }));
+    windowArr = [];
 };
 
 function sendMessage () {
-    newWindow.postMessage('这是来自父窗口的问候', '*'),
-    console.log(newWindow, 'toChild');
+    // newWindow.postMessage('这是来自父窗口的问候', '*'),
+    // console.log(newWindow, 'toChild');
 };
 
-let newWindow = undefined;
+// let newWindow = undefined;
 
 
 // 用于接受 子窗口传递回来的消息；
@@ -130,8 +137,6 @@ function savedialog () {
             // { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
         ],
     }).then(res => {
-        // dialog.showMessageBox([browserWindow,]options)
-        console.log(res);
         fs.writeFileSync(res.filePath, 'hello world !!!!!!!!');
     })
 };
@@ -206,7 +211,6 @@ const template = [
 
 function openMenu () {
     let menu = Menu.buildFromTemplate(template);
-    console.log(887, template, menu);
     menu.popup();
 };
 
