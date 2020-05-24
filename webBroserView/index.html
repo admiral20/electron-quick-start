@@ -29,11 +29,22 @@
     <button>
         abort
     </button>
+
+    <button onclick="openwindow()">打开子窗口</button>
     <script>
         const Xshell = require('electron-shutdown-command');
         function shutdown () {
             Xshell.shutdown();
         };
+
+        // 监听收到的消息 （父、子）;
+        window.addEventListener('message', (e) => {
+            console.log(e, '监听收到的消息');
+        });
+
+        function openwindow () {
+            window.open('../windowMessage/index.html');
+        }
         
         // const { BrowserView, BrowserWindow } = require('electron').remote;
         // console.log(BrowserView, BrowserWindow, 'BrowserView, BrowserWindow');

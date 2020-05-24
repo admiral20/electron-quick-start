@@ -68,8 +68,6 @@ let windowArr = [];
 function openNewWindow () {
     let newWindow = window.open('./windowopen/index.html');
     windowArr.push(newWindow);
-    // newWindow.postMessage('这是来自父窗口的问候', '*');
-    console.log('newWindow:', newWindow, "windowArr:", windowArr);
 };
 
 // 第三方库测试
@@ -93,9 +91,13 @@ function closeNewWindow() {
     windowArr = [];
 };
 
+// 发送消息给子窗口
 function sendMessage () {
-    // newWindow.postMessage('这是来自父窗口的问候', '*'),
-    // console.log(newWindow, 'toChild');
+    windowArr.length && windowArr.forEach((item => {
+        item.postMessage({
+            message: '这是来自父窗口的问候'
+        })
+    }))
 };
 
 // let newWindow = undefined;
