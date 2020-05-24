@@ -20,5 +20,8 @@
   "devDependencies": {
     "electron": "^8.3.0",
     "electron-packager": "^14.2.1"
+  },
+  "dependencies": {
+    "electron-shutdown-command": "0.0.8"
   }
 }

@@ -2,36 +2,36 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World!</title>
     <link rel="stylesheet" href="./style/index.css">
   </head>
   <body>
       <div>
           <h3>main process info</h3>
-          <button id="bt">点击</button>
+          <button onclick="getProcessInfo()">点击</button>
       </div>
       
       <div>
         <h3>event message; window open; browser-view;</h3>
-        <button id="openNewWindow">打开新窗口</button>
-        <button id="openNewWindow1">打开新窗口1</button>
-        <button id="openNewWindowInBrowser">浏览器里打开新窗口</button>
-        <button id="closeNewWindow">close新窗口</button>
-        <button id="sendMessage">给子窗口发送消息</button>
+        <button onclick="openNewWindow()">打开新窗口</button>
+        <button onclick="openNewWindowOfOther()">新窗口第三方库测试</button>
+        <button onclick="openNewWindowInBrowser()">浏览器里打开新窗口</button>
+        <button onclick="closeNewWindow()">close新窗口</button>
+        <button onclick="sendMessage()">给子窗口发送消息</button>
       </div>
 
       <div>
         <h3>menu</h3>
-        <button id="menubtn">点击打开菜单</button>
+        <button onclick="openMenu()">点击打开菜单</button>
       </div>
 
       <div>
         <h3>dialog</h3>
-        <button id="opendialog">选择文件</button>
-        <button id="savedialog">保存文件</button>
-        <button id="showMessageDialog">消息提示</button>
+        <button onclick="opendialog()">选择文件</button>
+        <button onclick="savedialog()">保存文件</button>
+        <button onclick="showMessageDialog()">消息提示</button>
       </div>
 
 
@@ -53,7 +53,6 @@
           style="display:inline-flex; width: 100vw; height: 100vh;"/>
         </webview>
       </div>
-    <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>
 </html>

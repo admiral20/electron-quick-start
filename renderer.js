@@ -1,23 +1,23 @@
 const fs = require('fs');
 const { ipcRenderer, shell } = require('electron');
 const { remote } = require('electron');
-const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, } = require('electron').remote
+const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView } = require('electron').remote
 
 function getDom (dom) {
     return document.getElementById(dom);
 };
 
 // mainprocess
-const buttonDom = getDom('bt');
-buttonDom.addEventListener("click", () => {
+function getProcessInfo () {
     console.log('mianProcess:', process);
-});
+};
 
 
 
 // FileObject
 const drop = document.getElementsByClassName('drapFile')[0];
 const fileShow = document.getElementsByClassName('fileShow')[0];
+
 
 drop.addEventListener('drop', e => {
     // 坑
@@ -64,48 +64,44 @@ wb.addEventListener('dom-ready', () => {
 })
 
 // windowopen
-const openNewWindowBtn = getDom('openNewWindow');
-const openNewWindowBtn1 = getDom('openNewWindow1');
-const closeNewWindowBtn = getDom('closeNewWindow');
-const sendMessageBtn = getDom('sendMessage');
-const openNewWindowInBrowserBtn = getDom('openNewWindowInBrowser');
-let newWindow = undefined;
-
 // 事件传递处理
-openNewWindowBtn.addEventListener('click', () => {
+function openNewWindow () {
     newWindow = window.open('./windowopen/index.html', 'test');
     newWindow.postMessage('这是来自父窗口的问候', '*'),
-    console.log(newWindow, 'newWindow');
-});
+        console.log(newWindow, 'newWindow');
+};
 
-openNewWindowBtn1.addEventListener('click', () => {
-    newWindow = window.open('./webBroserView/index.html');
-});
+// 第三方库测试
+function openNewWindowOfOther () {
+    newWindow = window.open('./webBroserView/index.html', 'test');
+};
 
-sendMessageBtn.addEventListener('click', () => {
+// 浏览器里打开新窗口
+function openNewWindowInBrowser () {
+    shell.openExternal('https:baidu.com/');
+};
+
+// close新窗口
+function closeNewWindow() {
+    newWindow.close();
+};
+
+function sendMessage () {
     newWindow.postMessage('这是来自父窗口的问候', '*'),
     console.log(newWindow, 'toChild');
-});
+};
 
-closeNewWindowBtn.addEventListener('click', () => {
-    newWindow.close();
-})
+let newWindow = undefined;
+
 
 // 用于接受 子窗口传递回来的消息；
 window.addEventListener('message', (e) => {
     console.log(e, 'e');
 })
 
-// 
-openNewWindowInBrowserBtn.addEventListener('click', () => {
-    shell.openExternal('https:baidu.com/');
-})
-
-
 
 // 打开文件
-const opendialogBtn = getDom('opendialog');
-opendialogBtn.addEventListener('click', ()=> {
+function opendialog () {
     dialog.showOpenDialog({
         title: '自定义title',
         buttonLabel: '自定义确定按钮',
@@ -119,12 +115,10 @@ opendialogBtn.addEventListener('click', ()=> {
     }).then(res => {
         console.log(res);
     })
-});
-
+};
 
 // 保存文件
-const savedialogBtn = getDom('savedialog');
-savedialogBtn.addEventListener('click', ()=> {
+function savedialog () {
     dialog.showSaveDialog({
         title: '自定义title',
         buttonLabel: '自定义保存按钮',
@@ -140,12 +134,10 @@ savedialogBtn.addEventListener('click', ()=> {
         console.log(res);
         fs.writeFileSync(res.filePath, 'hello world !!!!!!!!');
     })
-});
-
+};
 
 // Message
-const showMessageDialogBtn = getDom('showMessageDialog');
-showMessageDialogBtn.addEventListener('click', ()=> {
+function showMessageDialog () {
     dialog.showMessageBox({
         // type String(可选) - 可以为 "none", "info", "error", "question" 或者 "warning".在 Windows 上, "question" 与"info"显示相同的图标, 除非你使用了 "icon" 选项设置图标。 在 macOS 上, "warning" 和 "error" 显示相同的警告图标
         type: 'warning',
@@ -155,7 +147,7 @@ showMessageDialogBtn.addEventListener('click', ()=> {
     }).then(res => {
         console.log(res);
     })
-});
+};
 
 // 坑 用不了 20200518
 // 注册热键；
@@ -174,7 +166,6 @@ ipcRenderer.send('send-message-to-main', '666666666666666')
 
 
 // 菜单 Menu  MenuItem
-const mentbtn = getDom('menubtn');
 const template = [
     {
         label: '刷新',
@@ -211,13 +202,13 @@ const template = [
             console.log(2222);
         }
     }),
-]
+];
 
-mentbtn.addEventListener('click', () => {
+function openMenu () {
     let menu = Menu.buildFromTemplate(template);
     console.log(887, template, menu);
     menu.popup();
-})
+};
 
 // 全局添加右键事件
 window.addEventListener('contextmenu', (e) => {

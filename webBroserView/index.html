@@ -6,17 +6,45 @@
     <title>browser-view</title>
 </head>
 <body>
+    <button onclick="shutdown()">
+        shutdown
+    </button>
+    
+    <button>
+        Reboot
+    </button>
+   
+    <button>
+        logoff
+    </button>
+    
+    <button>
+        sleep
+    </button>
+
+    <button>
+        hibernate
+    </button>
+
+    <button>
+        abort
+    </button>
     <script>
-        const { BrowserView, BrowserWindow } = require('electron').remote;
+        const Xshell = require('electron-shutdown-command');
+        function shutdown () {
+            Xshell.shutdown();
+        };
+        
+        // const { BrowserView, BrowserWindow } = require('electron').remote;
         // console.log(BrowserView, BrowserWindow, 'BrowserView, BrowserWindow');
         // BrowserView
-        let win = new BrowserWindow({ width: 800, height: 600 })
-        win.on('closed', () => {
-            win = null
-        });
-        win.setBrowserView(view)
-        view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
-        view.webContents.loadURL('https://electronjs.org')
+        // let win = new BrowserWindow({ width: 800, height: 600 })
+        // win.on('closed', () => {
+        //     win = null
+        // });
+        // win.setBrowserView(view)
+        // view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
+        // view.webContents.loadURL('https://electronjs.org')
 
     </script>
 </body>
