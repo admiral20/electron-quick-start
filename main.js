@@ -54,25 +54,20 @@ function createWindow () {
 
   // 主进程主动访问渲染进程
   setTimeout(() => {
-    mainWindow.webContents.send('send-message-to-renderer', "wossssssssssssssssssssssssssss!!!!!")
+    mainWindow.webContents.send('send-message-to-renderer', "wosssss!!!!!")
   }, 5000);
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
 app.whenReady().then(() => {
    
-  createWindow();
-  
+  createWindow();  
   // 注册快捷键
   globalShortcut.register('CommandOrControl+O', () => {
     console.log('CommandOrControl+O is pressed');
   })
   
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
@@ -89,7 +84,8 @@ app.on('window-all-closed', function () {
 })
 
 app.on('quit', function () {
-  console.log('quit', 'b')
+  console.log('quit', 'b');
+  mainWindow = null;
 })
   
 app.on('before-quit', function () {
@@ -110,6 +106,6 @@ app.on('activate', function () {
 
 // ipcMain 主进程到渲染进程的异步通信
 ipcMain.on('send-message-to-main', (event, arg) => {
-  console.log('主进程收到的数据是:',arg) // prints "ping"
+  console.log('主进程收到的数据是:', arg) // prints "ping"
   event.reply('send-message-to-renderer', '这是来自于主进程的问候')
 })

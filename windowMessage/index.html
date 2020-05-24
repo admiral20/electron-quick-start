@@ -7,13 +7,33 @@
 </head>
 <body>
     <button onclick="sendMessageToFather()">给父窗口发送消息</button>
+    <button onclick="sendMessageToMainProcess()">发送消息到主进程</button>
     <script>
+        const { ipcRenderer } = require('electron');
+
+        // 给父窗口发送消息
         function sendMessageToFather () {
             window.opener.postMessage({
                 name: 'zs',
                 age: '22'
             })
         };
+
+        let obj = {
+            name: 'zs',
+            age: 21
+        };
+        
+        function sendMessageToMainProcess () {
+            ipcRenderer.send('send-message-to-main', obj)
+        };
+
+        // 渲染进程接收消息；
+        setTimeout(() => {
+            ipcRenderer.on('send-message-to-renderer', (event, arg) => {
+                console.log(event, arg, 'event, arg');
+            });
+        }, 8000);
     </script>
 </body>
 </html>

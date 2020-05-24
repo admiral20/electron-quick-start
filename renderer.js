@@ -26,8 +26,8 @@ drop.addEventListener('drop', e => {
         const path = file[0].path;
         // 读文件操作：
         const content = fs.readFileSync(path).toString();
-        console.log('content:', content);
         fileShow.innerHTML = content;
+        // fileShow.innerHTML = JSON.stringify(content, null, 4);
     }
 });
 
@@ -103,7 +103,7 @@ function sendMessage () {
 // let newWindow = undefined;
 
 
-// 用于接受 子窗口传递回来的消息；
+// 用于接受 窗口传递回来的消息；
 window.addEventListener('message', (e) => {
     console.log(e, 'e');
 })
@@ -162,13 +162,12 @@ globalShortcut.isRegistered('CommandOrControl+G', () => {
     console.log('CommandOrControl+G');
 })
 
-
 // 渲染进程接收消息；
 ipcRenderer.on('send-message-to-renderer', (event, arg) => {
     console.log(event, arg, 'event, arg');
 })
 
-// 渲染进程发送消息给主进程；
+// // 渲染进程发送消息给主进程；
 ipcRenderer.send('send-message-to-main', '666666666666666')
 
 
