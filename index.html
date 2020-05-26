@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link rel="stylesheet" href="./style/index.css">
   </head>
   <body>
       <div>
           <h3>main process info</h3>
-          <button onclick="getProcessInfo()">点击</button>
+          <button onclick="getRendererProcessInfo()">点击</button>
       </div>
       
       <div>
-        <h3>event message; window open; browser-view;</h3>
-        <button onclick="openNewWindow()">打开新窗口</button>
+        <h3>event message window open browser-view</h3>
         <button onclick="openNewWindowOfOther()">新窗口第三方库测试</button>
         <button onclick="openNewWindowInBrowser()">浏览器里打开新窗口</button>
         <button onclick="closeNewWindow()">close新窗口</button>
@@ -23,10 +23,11 @@
         <button onclick="openCCTV()">openCCTV</button>
         <button onclick="openNewCCTV()">openNewCCTV</button>
       </div>
-
+      
       <div>
         <h3>menu</h3>
-        <button onclick="openMenu()">点击打开菜单</button>
+        <button onclick="menuTest()">打开菜单测试页</button>
+        <button onclick="openMenu()">弹出菜单</button>
       </div>
 
       <div>
@@ -39,7 +40,7 @@
 
       <div>
         <h3>File</h3>
-        <div class="drapFile">
+        <div class="drapFile z-depth-5">
           <span>往这里拖文件</span>
         </div>
         <div class="fileShow"></div>
@@ -56,5 +57,10 @@
         </webview>
       </div>
     <script src="./renderer.js"></script>
+    <script>
+      Array.from(document.getElementsByTagName('button')).forEach(element => {
+        element.setAttribute('class', 'waves-effect waves-light btn')
+      });
+    </script>
   </body>
 </html>

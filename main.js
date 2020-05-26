@@ -2,8 +2,6 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem, BrowserView, screen } = require('electron')
 const path = require('path')
 
-
-
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -66,7 +64,10 @@ app.whenReady().then(() => {
     console.log('CommandOrControl+O is pressed');
   });
 
-  console.log(require('electron'));
+  (()=> {
+    console.log(require('electron'));
+    console.log('主进程 mianProcess:', process, 'processNums:', Object.entries(process).length);
+  })()
 
   // 全局菜单配置;
   const template = [

@@ -1,9 +1,6 @@
 const fs = require('fs');
 const { ipcRenderer, shell } = require('electron');
-const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView, screen } = require('electron').remote
-
-console.log(globalShortcut, 'globalShortcut');
-
+const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView, screen } = require('electron').remote;
 
 // 当前页面注册热键
 (()=> {
@@ -12,13 +9,11 @@ console.log(globalShortcut, 'globalShortcut');
     });
 })()
 
-// mainprocess
-function getProcessInfo () {    
-    console.log('mianProcess:', process);
+// RendererProcessInfo
+function getRendererProcessInfo () {    
     console.log(require('electron'));
+    console.log('RendererProcessInfo:', process, 'processNums:', Object.entries(process).length);
 };
-
-
 
 // FileObject
 const drop = document.getElementsByClassName('drapFile')[0];
@@ -34,18 +29,13 @@ drop.addEventListener('drop', e => {
         // 读文件操作：
         const content = fs.readFileSync(path).toString();
         fileShow.innerHTML = content;
-        // fileShow.innerHTML = JSON.stringify(content, null, 4);
     }
 });
-
 
 // 坑
 drop.addEventListener('dragover', e => {
     e.preventDefault();
 })
-
-
-
 
 // webview
 const wb = document.getElementById('wb');
@@ -70,19 +60,18 @@ wb.addEventListener('dom-ready', () => {
 })
 
 let windowArr = [];
-// windowopen
-// 事件传递处理
-function openNewWindow () {
-    let newWindow = window.open('./windowopen/index.html');
+
+
+// 菜单测试
+function menuTest () {
+    let newWindow = window.open('./menu/index.html');
     windowArr.push(newWindow);
 };
 
 // 第三方库测试
 function openNewWindowOfOther () {
-    // let newWindow = window.open('./webBroserView/index.html');
-    let newOtherWindow = window.open('./webBroserView/index.html');
+    let newOtherWindow = window.open('./command/index.html');
     windowArr.push(newOtherWindow);
-    // newOtherWindow.postMessage('testttt');
 };
 
 // 浏览器里打开新窗口
@@ -106,8 +95,6 @@ function sendMessage () {
         })
     }))
 };
-
-// let newWindow = undefined;
 
 
 // 用于接受 窗口传递回来的消息；

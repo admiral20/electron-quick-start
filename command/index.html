@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>electron-command</title>
+</head>
+<body>
+    <button onclick="shutdown">shutdown</button>
+    
+    <button onclick="reboot">reboot</button>
+   
+    <button onclick="logoff">logoff</button>
+    
+    <button onclick="sleep">sleep [macOS only]</button>
+
+    <button onclick="hibernate">hibernate</button>
+
+    <button onclick="abort">abort</button>
+
+    <!-- <button onclick="openwindow()">打开子窗口</button> -->
+    <script>
+        const { shutdown, reboot, logoff, sleep, hibernate, abort } = require('electron-shutdown-command');
+        // function shutdown () {
+        //     Xshell.shutdown();
+        // };
+
+        // 监听收到的消息 （父、子）;
+        window.addEventListener('message', (e) => {
+            console.log(e, '监听收到的消息');
+        });
+
+        function openwindow () {
+           let a = window.open('../message/index.html');
+           console.log(a, 'a');
+        }
+        
+        // const { BrowserView, BrowserWindow } = require('electron').remote;
+        // console.log(BrowserView, BrowserWindow, 'BrowserView, BrowserWindow');
+        // BrowserView
+        // let win = new BrowserWindow({ width: 800, height: 600 })
+        // win.on('closed', () => {
+        //     win = null
+        // });
+        // win.setBrowserView(view)
+        // view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
+        // view.webContents.loadURL('https://electronjs.org')
+        // function reboot () {
+        //     Xshell.reboot();
+        // };
+
+        // function logoff () {
+        //     Xshell.logoff();
+        // };
+
+        // function sleep () {
+        //     Xshell.sleep();
+        // };
+
+        // function hibernate () {
+        //     Xshell.hibernate();
+        // };
+
+        // function abort () {
+        //     Xshell.abort();
+        // };
+
+    </script>
+</body>
+</html>
