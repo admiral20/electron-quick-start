@@ -5,7 +5,7 @@ const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView, s
 // 当前页面注册热键
 (()=> {
     globalShortcut.register('ctrl + q', () => {
-        console.log(999999999999);
+        console.log('ctrl + q 注册热键');
     });
 })()
 
@@ -41,11 +41,11 @@ drop.addEventListener('dragover', e => {
 const wb = document.getElementById('wb');
 
 wb.addEventListener('did-start-loading', () => {
-    console.log('000 webwiev 开始加载');
+    console.log('webwiev 开始加载');
 });
 
 wb.addEventListener('did-stop-loading', () => {
-    console.log('111 webwiev 加载完毕');
+    console.log('webwiev 加载完毕');
     wb.insertCSS(`
         #su {
             background: red !important;
@@ -111,9 +111,6 @@ function opendialog () {
         filters: [
             { name: 'json || js', extensions: ['json', 'js'] },
             { name: 'All Files', extensions: ['*'] }
-            // { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
-            // { name: 'Custom File Type', extensions: ['as'] },
-            // { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
         ],
     }).then(res => {
         console.log(res);
@@ -128,9 +125,6 @@ function savedialog () {
         filters: [
             // { name: 'json || js', extensions: ['json', 'js'] },
             { name: 'All Files', extensions: ['*'] }
-            // { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
-            // { name: 'Custom File Type', extensions: ['as'] },
-            // { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
         ],
     }).then(res => {
         fs.writeFileSync(res.filePath, 'hello world !!!!!!!!');
@@ -199,11 +193,10 @@ const template = [
 ];
 
 function openMenu () {
-    let menu = Menu.buildFromTemplate(template);
+    let templateArr = template.slice(0, template.length - 2);
+    templateArr.push({ label: 'haha' }, { label: 'hehe' });
+    let menu = Menu.buildFromTemplate(templateArr);
     menu.popup();
-
-    let a = getCurrentWindow();
-    console.log(a);
 };
 
 // 本窗口打开cctv

@@ -10,18 +10,23 @@
   </head>
   <body>
       <div>
-          <h3>main process info</h3>
+          <h3>RendererProcessInfo</h3>
           <button onclick="getRendererProcessInfo()">点击</button>
       </div>
       
+
       <div>
-        <h3>event message window open browser-view</h3>
+        <h3>window</h3>
         <button onclick="openNewWindowOfOther()">新窗口第三方库测试</button>
         <button onclick="openNewWindowInBrowser()">浏览器里打开新窗口</button>
-        <button onclick="closeNewWindow()">close新窗口</button>
-        <button onclick="sendMessage()">给子窗口发送消息</button>
         <button onclick="openCCTV()">openCCTV</button>
         <button onclick="openNewCCTV()">openNewCCTV</button>
+        <button onclick="closeNewWindow()">close新窗口</button>
+      </div>
+
+      <div>
+        <h3>event message</h3>
+        <button onclick="sendMessage()">给子窗口发送消息</button>
       </div>
       
       <div>
