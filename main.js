@@ -1,12 +1,11 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu, BrowserView, screen } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem, BrowserView, screen } = require('electron')
 const path = require('path')
 
 
 
 function createWindow () {
   // Create the browser window.
-  // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   const mainWindow = new BrowserWindow({
     width: 500,
     height: 600,
@@ -61,12 +60,36 @@ function createWindow () {
 
 app.whenReady().then(() => {
    
-  createWindow();  
+  createWindow();
   // 注册快捷键
   globalShortcut.register('CommandOrControl+O', () => {
     console.log('CommandOrControl+O is pressed');
-  })
-  
+  });
+
+  console.log(require('electron'));
+
+  // 全局菜单配置;
+  const template = [
+    {
+      label: '操作集合',
+      submenu: [{
+        label: '1'
+      },{
+        label: '2'
+      }]
+  },
+  new MenuItem({
+      label: '测试',
+      click: () => {
+        console.log(2222);
+      }
+    }),
+  ];
+
+  // const menu = Menu.buildFromTemplate(template)
+  // Menu.setApplicationMenu(menu);
+
+
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
@@ -78,8 +101,6 @@ app.on('window-all-closed', function () {
 
   // 清理注册的所有的快捷键；
   globalShortcut.unregisterAll();
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit()
 })
 
@@ -98,8 +119,6 @@ app.on('will-quit', function () {
 
 // 执行顺序 a c d b
 app.on('activate', function () {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 

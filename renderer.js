@@ -1,14 +1,21 @@
 const fs = require('fs');
 const { ipcRenderer, shell } = require('electron');
-const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView } = require('electron').remote
+const { dialog, globalShortcut, Menu, MenuItem, getCurrentWindow, BrowserView, screen } = require('electron').remote
 
-function getDom (dom) {
-    return document.getElementById(dom);
-};
+console.log(globalShortcut, 'globalShortcut');
+
+
+// 当前页面注册热键
+(()=> {
+    globalShortcut.register('ctrl + q', () => {
+        console.log(999999999999);
+    });
+})()
 
 // mainprocess
-function getProcessInfo () {
+function getProcessInfo () {    
     console.log('mianProcess:', process);
+    console.log(require('electron'));
 };
 
 
@@ -41,7 +48,7 @@ drop.addEventListener('dragover', e => {
 
 
 // webview
-const wb = getDom('wb');
+const wb = document.getElementById('wb');
 
 wb.addEventListener('did-start-loading', () => {
     console.log('000 webwiev 开始加载');
@@ -156,12 +163,6 @@ function showMessageDialog () {
     })
 };
 
-// 坑 用不了 20200518
-// 注册热键；
-globalShortcut.isRegistered('CommandOrControl+G', () => {
-    console.log('CommandOrControl+G');
-})
-
 // 渲染进程接收消息；
 ipcRenderer.on('send-message-to-renderer', (event, arg) => {
     console.log(event, arg, 'event, arg');
@@ -213,6 +214,20 @@ const template = [
 function openMenu () {
     let menu = Menu.buildFromTemplate(template);
     menu.popup();
+
+    let a = getCurrentWindow();
+    console.log(a);
+};
+
+// 本窗口打开cctv
+function openCCTV () {
+    const { loadURL } =  getCurrentWindow();
+    loadURL('http://www.cctv.com')
+};
+
+// 新窗口打开cctv
+function openNewCCTV () {
+    window.open('http://www.cctv.com')
 };
 
 // 全局添加右键事件
