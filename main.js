@@ -32,9 +32,9 @@ function createWindow () {
 
   // 事件: 'move'
   // 窗口移动到新位置时触发
-  mainWindow.on('move', (e) => {
-    console.log('move', e);
-  })
+  // mainWindow.on('move', (e) => {
+  //   console.log('move', e);
+  // })
   
   // 注意: 在 macOS 上，此事件是moved的别名.
 
