@@ -32,9 +32,9 @@ function createWindow () {
 
   // 事件: 'move'
   // 窗口移动到新位置时触发
-  // mainWindow.on('move', (e) => {
-  //   console.log('move', e);
-  // })
+  mainWindow.on('move', (e) => {
+    console.log('move', e);
+  })
   
   // 注意: 在 macOS 上，此事件是moved的别名.
 
@@ -126,7 +126,7 @@ app.on('activate', function () {
 
 // ipcMain 主进程到渲染进程的异步通信
 ipcMain.on('send-message-to-main', (event, arg) => {
-  // console.log('主进程收到的数据是:', arg) // prints "ping"
+  console.log('主进程收到的数据是:', arg) // prints "ping"
   event.reply('send-message-to-renderer', '这是来自于主进程的问候')
 });
 
