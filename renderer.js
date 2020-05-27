@@ -215,4 +215,19 @@ window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     let menu = Menu.buildFromTemplate(template);
     menu.popup({ window: getCurrentWindow() })
-}, false)
+}, false);
+
+
+// tray
+
+let flag = false;
+function serRemoveIcon() {
+    if (flag) {
+        flag = false;
+        ipcRenderer.send('remove-tray')
+    } else {
+        flag = true;
+        console.log(111);
+        ipcRenderer.send('put-in-tray')
+    }
+};

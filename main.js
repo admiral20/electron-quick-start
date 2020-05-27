@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem, BrowserView, screen } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem, Tray, BrowserView, screen } = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -46,7 +46,7 @@ function createWindow () {
   
   // 事件: 'enter-full-screen'
   mainWindow.on('enter-full-screen', (e) => {
-    console.log('enter-full-screen', e);
+    // console.log('enter-full-screen', e);
   });
 
   // 主进程主动访问渲染进程
@@ -61,12 +61,12 @@ app.whenReady().then(() => {
   createWindow();
   // 注册快捷键
   globalShortcut.register('CommandOrControl+O', () => {
-    console.log('CommandOrControl+O is pressed');
+    // console.log('CommandOrControl+O is pressed');
   });
 
   (()=> {
-    console.log(require('electron'));
-    console.log('主进程 mianProcess:', process, 'processNums:', Object.entries(process).length);
+    // console.log(require('electron'));
+    // console.log('主进程 mianProcess:', process, 'processNums:', Object.entries(process).length);
   })()
 
   // 全局菜单配置;
@@ -126,6 +126,28 @@ app.on('activate', function () {
 
 // ipcMain 主进程到渲染进程的异步通信
 ipcMain.on('send-message-to-main', (event, arg) => {
-  console.log('主进程收到的数据是:', arg) // prints "ping"
+  // console.log('主进程收到的数据是:', arg) // prints "ping"
   event.reply('send-message-to-renderer', '这是来自于主进程的问候')
+});
+
+
+// tray 系统操作栏测试
+let appIcon = null;
+
+ipcMain.on('put-in-tray', (event) => {
+  const iconName = 'app.png';
+  const iconPath = path.join('./', iconName);
+  
+  appIcon = new Tray(iconPath);
+  console.log(appIcon);
+
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'remove',
+    click: () => {
+      event.sender.send('tray-removed')
+    }
+  }])
+
+  appIcon.setTitle('test tray')
+  appIcon.setContextMenu(contextMenu)
 })
