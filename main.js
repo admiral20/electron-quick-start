@@ -61,7 +61,7 @@ app.whenReady().then(() => {
   createWindow();
   // 注册快捷键
   globalShortcut.register('CommandOrControl+O', () => {
-    // console.log('CommandOrControl+O is pressed');
+    console.log('CommandOrControl+O is pressed');
   });
 
   (()=> {
